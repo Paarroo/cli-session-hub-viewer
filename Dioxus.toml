@@ -1,0 +1,28 @@
+[application]
+name = "cli-session-hub-viewer"
+version = "0.1.0"
+default_platform = "fullstack"
+out_dir = "dist"
+asset_dir = "assets"
+
+[web.app]
+title = "CLI Session Hub Viewer"
+
+[web.watcher]
+watch_path = ["src", "assets"]
+reload_html = true
+index_on_404 = true
+
+# Server configuration - port is dynamic (dx serve uses internal port)
+# When running directly with cargo run, use localhost:8080
+# When running with dx serve, the CLI manages ports automatically
+
+[fullstack]
+enabled = true
+server_only = false
+
+# Pre-build hook to regenerate CSS bundle
+[[hooks.build]]
+stage = "pre"
+command = "bash"
+args = ["scripts/build-css.sh"]
