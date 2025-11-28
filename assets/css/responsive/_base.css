@@ -1,0 +1,143 @@
+/* Responsive Base Rules */
+
+/* Modern viewport units (dvh, svh, lvh) */
+html {
+  /* Use dvh (dynamic viewport height) instead of vh */
+  min-height: 100dvh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* Reset browser defaults */
+  margin: 0;
+  padding: 0;
+  /* Use theme background color */
+  background: var(--background);
+  color: var(--foreground);
+  /* Adjust for Safe Areas (iPhone notch, Android cutouts) */
+  padding-top: env(safe-area-inset-top, 0);
+  padding-right: env(safe-area-inset-right, 0);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding-left: env(safe-area-inset-left, 0);
+}
+
+/* Touch-friendly tap targets (minimum 44x44px) */
+@media (pointer: coarse) {
+  button,
+  a,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Hover effects only on devices with hover capability */
+@media (hover: hover) {
+  a:hover,
+  button:hover {
+    /* Enable hover effects */
+  }
+}
+
+/* Disable hover effects on touch devices */
+@media (hover: none) {
+  a:hover,
+  button:hover {
+    /* No hover state on touch */
+  }
+}
+
+/* High DPI displays (Retina, 4K) */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper images for high DPI */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Orientation changes */
+@media (orientation: portrait) {
+  /* Portrait-specific styles */
+}
+
+@media (orientation: landscape) {
+  /* Landscape-specific styles */
+}
+
+/* Foldable devices (experimental) */
+@media (horizontal-viewport-segments: 2) {
+  /* Dual-screen horizontal fold */
+}
+
+@media (vertical-viewport-segments: 2) {
+  /* Dual-screen vertical fold */
+}
+
+/* Print styles */
+@media print {
+  /* Hide navigation and interactive elements */
+  header,
+  footer,
+  nav,
+  button {
+    display: none !important;
+  }
+
+  /* Show links URLs */
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  /* Prevent page breaks inside elements */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+  /* Ensure black text on white background */
+  body {
+    color: #000;
+    background: #fff;
+  }
+}
+
+/* Accessibility: High Contrast */
+@media (prefers-contrast: more) {
+  /* Increase contrast */
+  body {
+    --foreground: oklch(10% 0 0);
+    --background: oklch(100% 0 0);
+  }
+}
+
+@media (prefers-contrast: less) {
+  /* Reduce contrast */
+  body {
+    --foreground: oklch(40% 0 0);
+    --background: oklch(95% 0 0);
+  }
+}
+
+/* Accessibility: Reduced Transparency */
+@media (prefers-reduced-transparency: reduce) {
+  * {
+    backdrop-filter: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Accessibility: Data Saver Mode */
+@media (prefers-reduced-data: reduce) {
+  /* Load lighter images, disable autoplay */
+  img {
+    /* Use visibility to hide images in data-saver mode */
+    visibility: hidden;
+  }
+
+  video {
+    display: none;
+  }
+}

@@ -1,0 +1,72 @@
+/* Accessibility - Reduced Motion */
+
+/* Respect prefers-reduced-motion (accessibility) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable specific animations */
+  .animate-fade-in,
+  .animate-slide-in,
+  .animate-slide-up,
+  .animate-slide-down,
+  .animate-scale-in,
+  .animate-spin,
+  .animate-pulse,
+  .animate-bounce {
+    animation: none !important;
+  }
+
+  /* Disable transitions */
+  .u-transition,
+  .u-transition-all,
+  .u-transition-colors {
+    transition: none !important;
+  }
+}
+
+/* Prefers reduced transparency (Windows High Contrast) */
+@media (prefers-reduced-transparency: reduce) {
+  * {
+    backdrop-filter: none !important;
+    background-color: var(--background) !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  * {
+    border-width: 2px;
+  }
+
+  button,
+  a {
+    text-decoration: underline;
+  }
+
+  *:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+/* Forced colors mode (Windows High Contrast) */
+@media (forced-colors: active) {
+  * {
+    forced-color-adjust: auto;
+  }
+
+  /* Ensure borders are visible */
+  .c-card,
+  .c-button,
+  input,
+  textarea,
+  select {
+    border: 1px solid;
+  }
+}

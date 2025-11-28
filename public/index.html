@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CLI Session Hub Viewer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <script>
+      // Image drag & drop + paste bridge for WASM
+      (function() {
+        // Prevent default drag & drop everywhere (capture phase)
+        ['dragover', 'drop'].forEach(function(evt) {
+          window.addEventListener(evt, function(e) { e.preventDefault(); }, true);
+          document.addEventListener(evt, function(e) { e.preventDefault(); }, true);
+        });
+
+        // Callback to be set by WASM
+        window.__onFilesDropped = null;
+        window.__chatInputSetup = false;
+
+        // Setup drop zone on an element
+        window.__setupImageDropZone = function(elementId) {
+          var el = document.getElementById(elementId);
+          if (!el) {
+            console.warn('[ImageBridge] Element not found:', elementId);
+            return false;
+          }
+
+          // Visual feedback for drag over
+          el.addEventListener('dragenter', function(e) {
+            e.preventDefault();
+            el.classList.add('drag-over');
+          }, false);
+
+          el.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            el.classList.remove('drag-over');
+          }, false);
+
+          el.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.dataTransfer.dropEffect = 'copy';
+          }, false);
+
+          el.addEventListener('drop', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            el.classList.remove('drag-over');
+
+            var files = Array.from(e.dataTransfer.files).filter(function(f) {
+              return f.type.startsWith('image/');
+            });
+
+            if (files.length > 0 && window.__onFilesDropped) {
+              console.log('[ImageBridge] Dropped', files.length, 'image(s)');
+              window.__onFilesDropped(files);
+            }
+          }, false);
+
+          console.log('[ImageBridge] Drop zone setup on:', elementId);
+          return true;
+        };
+
+        // Setup paste handler on an element
+        window.__setupImagePasteHandler = function(elementId) {
+          var el = document.getElementById(elementId);
+          if (!el) {
+            console.warn('[ImageBridge] Element not found for paste:', elementId);
+            return false;
+          }
+
+          el.addEventListener('paste', function(e) {
+            if (!e.clipboardData || !e.clipboardData.items) return;
+
+            var items = Array.from(e.clipboardData.items);
+            var imageItems = items.filter(function(i) {
+              return i.type.startsWith('image/');
+            });
+
+            if (imageItems.length > 0) {
+              e.preventDefault();
+              var files = imageItems.map(function(i) {
+                return i.getAsFile();
+              }).filter(Boolean);
+
+              if (files.length > 0 && window.__onFilesDropped) {
+                console.log('[ImageBridge] Pasted', files.length, 'image(s)');
+                window.__onFilesDropped(files);
+              }
+            }
+            // If no images, let normal paste behavior through for text
+          }, false);
+
+          console.log('[ImageBridge] Paste handler setup on:', elementId);
+          return true;
+        };
+
+        // Setup file input handler
+        window.__setupImageFileInput = function(inputId) {
+          var input = document.getElementById(inputId);
+          if (!input) {
+            console.warn('[ImageBridge] Input not found:', inputId);
+            return false;
+          }
+
+          input.addEventListener('change', function(e) {
+            var files = Array.from(e.target.files).filter(function(f) {
+              return f.type.startsWith('image/');
+            });
+
+            if (files.length > 0 && window.__onFilesDropped) {
+              console.log('[ImageBridge] Selected', files.length, 'image(s) via file input');
+              window.__onFilesDropped(files);
+            }
+
+            // Reset input so same file can be selected again
+            e.target.value = '';
+          }, false);
+
+          console.log('[ImageBridge] File input handler setup on:', inputId);
+          return true;
+        };
+
+        console.log('[ImageBridge] Initialized');
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="main"></div>
+  </body>
+</html>
