@@ -1,0 +1,5 @@
+/target
+*.backup
+Cargo.lock
+.DS_Store
+server.log
