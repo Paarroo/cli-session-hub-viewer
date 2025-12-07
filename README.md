@@ -6,6 +6,9 @@ A Dioxus fullstack application for viewing, managing, and interacting with AI CL
 
 This application provides a web interface to browse conversation histories created by AI command-line tools. It automatically discovers projects, parses session files (JSONL format), and allows real-time chat interactions with the underlying CLI.
 
+![Application Overview](assets/screenshots/app-overview2.png)
+*A general overview of the application interface.*
+
 ## Features
 
 ### Session Management
@@ -16,12 +19,17 @@ This application provides a web interface to browse conversation histories creat
 - Archive and delete sessions
 - View session metadata (duration, message count, timestamps)
 
+![Session List View](assets/screenshots/session-list.png)
+*Browse and manage your AI CLI sessions.*
+
 ### Conversation Display
 
 - Render full conversations with markdown support
 - Display tool calls and results (Claude SDK format)
 - Syntax highlighting for code blocks
 - Breadcrumb navigation between projects, sessions, and conversations
+
+
 
 ### Live Chat
 
@@ -31,12 +39,18 @@ This application provides a web interface to browse conversation histories creat
 - Session continuity with conversation IDs
 - Working directory selection for file operations
 
+![Live Chat Interface](assets/screenshots/live-chat.png)
+*Engage in real-time chat with your AI CLI.*
+
 ### Image Support
 
 - Upload images via drag-and-drop or file picker
 - Multiple image support with preview grid
 - Base64 encoding for transmission
 - Supported formats: JPEG, PNG, GIF, WebP
+
+![Image Upload/Display](assets/screenshots/image-support.png)
+*Seamless image handling within conversations.*
 
 ### Multi-Provider Support
 
@@ -49,6 +63,9 @@ This application provides a web interface to browse conversation histories creat
 ### Theme System
 
 CLI Session Hub Viewer supports 6 beautiful themes that adapt to your preferences and workflow:
+
+![Themes Overview](assets/screenshots/themes.png)
+*A general overview of the available themes.*
 
 #### Light Theme
 ![Light Theme](assets/screenshots/theme-light.png)
@@ -119,7 +136,9 @@ src/
 
 ```bash
 # Development
-dx serve
+bash scripts/build-css.sh
+
+dx serve --platform web
 
 # Production build
 dx build --release
