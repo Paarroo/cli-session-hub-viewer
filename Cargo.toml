@@ -1,7 +1,10 @@
 [package]
 name = "cli-session-hub-viewer"
 version = "0.1.0"
-edition = "2021"
+authors = ["Paarroo <code_source_0@protonmail.com>"]
+description = "UI for AI instead of CLI, for Claude Code, OpenCode and Gemini."
+topics = ["Rust", "Dioxus", "WebAssembly(WASM)", "Fullstack", "web-application", "AI", "conversational-ai", "CLI", "SessionManagement", "chat-history", "HistoryViewer", "ChatApplication", "Claude", "OpenCode", "Gemini", "image-support", "UI/UX", "Real-time", "DeveloperTool", "Axum", "SurrealDB", "Redis"]
+edition = "2024"
 
 # ============================================
 # SHARED DEPENDENCIES (WASM + Server compatible)
